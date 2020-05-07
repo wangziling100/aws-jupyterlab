@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: scripts
+  labels:
+    app: scripts
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      app: scripts
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: scripts
+        version: v1
+    spec:
+      containers:
+      - name: scripts
+        image: wangziling100/cicdscripts
+        imagePullPolicy: IfNotPresent
+        command: ["bash", "/tmp/entry_point.sh"]
+        #command: ["sleep", "100000000"]
+        volumeMounts:
+        - name: workspace
+          mountPath: /workspace
+        - name: config
+          mountPath: /tmp/
+          #subPath: usr/scripts/entry_point.sh
+      volumes:
+      - name: workspace
+        hostPath:
+          path: /workspace
+      - name: config
+        configMap:
+          name: scripts-config
+          #items:
+          #- key: entry_point.sh
+          #  path: etc/scripts/entry_point.sh

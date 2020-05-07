@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: jupyterlab
+  labels:
+    app: jupyterlab
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      app: jupyterlab
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: jupyterlab
+        version: v1
+    spec:
+      serviceAccount: jupyterlab
+      containers:
+      - name: jupyterlab
+        image: wangziling100/jlkube
+        imagePullPolicy: IfNotPresent
+        ports: 
+        - containerPort: 8888
+        volumeMounts:
+        - name: workspace
+          mountPath: /workspace
+        - name: config
+          mountPath: /root/.jupyter/
+        - name: entry-point
+          mountPath: /usr/scripts
+      volumes:
+      - name: workspace
+        hostPath:
+          path: /workspace
+      - name: config
+        configMap:
+          name: jupyterlab-config
+      - name: entry-point
+        configMap:
+          name: jupyterlab-entry-point

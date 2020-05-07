@@ -1,0 +1,7 @@
+resources:
+- services.yaml
+- rbac.yaml
+- configmap-jl.yaml
+- configmap-scripts.yaml
+- deploy-jl.yaml
+- deploy-scripts.yaml

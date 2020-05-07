@@ -1,0 +1,10 @@
+kind: ConfigMap
+metadata:
+  name: scripts-config
+apiVersion: v1
+data:
+  entry_point.sh: |
+    #!/bin/bash
+    cd /usr/scripts/CICDScrpits-master/shell/AutoRun
+    bash auto_run.sh /workspace/
+

@@ -1,0 +1,20 @@
+kind: ConfigMap
+metadata:
+  name: jupyterlab-entry-point
+apiVersion: v1
+data:
+  entry_point.sh: |-
+    #!/bin/bash
+    kubectl logs $(kubectl get po | grep scripts | awk '{print  $1}') -f
+---
+kind: ConfigMap
+metadata:
+  name: jupyterlab-config
+apiVersion: v1
+data:
+  jupyter_notebook_config.py: |-
+    c.NotebookApp.ip = '*'
+    c.NotebookApp.password = 'sha1:f704b702aea2:01e2bd991f9c7208ba177b46f4d10b6907810927' 
+    c.NotebookApp.open_browser = False 
+    c.NotebookApp.port = 8888
+    c.NotebookApp.allow_remote_access = True
